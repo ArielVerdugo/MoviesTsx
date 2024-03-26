@@ -1,18 +1,17 @@
-import { Pressable, ScrollView, Text, View } from "react-native"
-import { Movie } from "../../../core/entities/movie.entity"
+import { FlatList, View } from "react-native"
+import { Movie } from '../../../core/entities/movie.entity';
 import { MoviePoster } from "./MoviePoster";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { RootStackParams } from "../../routes/StackNavigator";
 
 interface Props {
-    movies: Movie[];
+    movies?: Movie[];
     height?: number;
+    loadMore: () => void;
 }
 
-export const PosterCarousel = ({height = 440, movies}: Props) => {
+export const PosterCarousel = ({height = 440, movies, loadMore}: Props) => {
 
     return (
-        <View style={{height}}>
+        /*<View style={{height}}>
             <ScrollView
                 horizontal
                 showsHorizontalScrollIndicator={false}
@@ -21,7 +20,22 @@ export const PosterCarousel = ({height = 440, movies}: Props) => {
                     movies.map( movie => <MoviePoster key={movie.id} movie={movie} ></MoviePoster>)
                 }
                 </ScrollView>
-        </View>
+        </View>*/
+
+        <View style={{height}}>
+            <FlatList
+                horizontal={true}
+                onEndReached={loadMore}
+                data={movies}
+                renderItem = {({item}) => <MoviePoster key={item.id} movie={item} />}
+                style={
+                    { 
+                        marginTop: 10,
+                        marginLeft: 35,
+                    }
+                }
+            />   
+        </View> 
     )
 }
 

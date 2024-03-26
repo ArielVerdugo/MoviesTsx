@@ -12,7 +12,6 @@ interface Props {
 
 export const HorizontalCarousel = ({ movies, title }: Props) => {
 
-
   return (
     <View
       style={{ height: title ? 260 : 220  }}

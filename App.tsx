@@ -1,6 +1,5 @@
 
 import React from 'react';
-import type {PropsWithChildren} from 'react';
 import {
   StyleSheet,
   useColorScheme,
@@ -11,6 +10,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { StackNavigator } from './src/presentation/routes/StackNavigator';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 
 function App(): React.JSX.Element {
@@ -20,9 +20,13 @@ function App(): React.JSX.Element {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  const queryClient = new QueryClient();
+
   return (
     <NavigationContainer>
-      <StackNavigator />
+      <QueryClientProvider client={queryClient}>
+        <StackNavigator />
+      </QueryClientProvider>
     </NavigationContainer>
     
   );
