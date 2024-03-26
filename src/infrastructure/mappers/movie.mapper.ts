@@ -4,7 +4,7 @@ import { Result } from "../interfaces/movie-db.responses";
 
 export class MovieMapper {
 
-    static fromMovieDBResultToEntity( result: Result): Movie {
+    static fromDBMovieToEntity( result: Result): Movie {
         return {
             id: result.id,
             title: result.title,

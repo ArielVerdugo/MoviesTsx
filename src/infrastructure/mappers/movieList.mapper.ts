@@ -5,8 +5,7 @@ import { MovieMapper } from "./movie.mapper";
 
 export class MovieListMapper {
 
-    static fromMovieDBResultListToEntity( results: Result[]): Movie[] {
-        const movies: Movie[] = results.map(result => MovieMapper.fromMovieDBResultToEntity(result));
-        return movies;
+    static fromDBListMovieToEntity( results: Result[]): Movie[] {
+        return results.map(result => MovieMapper.fromDBMovieToEntity(result));
     }
 }

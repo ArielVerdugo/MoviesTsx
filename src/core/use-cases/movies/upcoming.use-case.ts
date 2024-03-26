@@ -7,7 +7,7 @@ export const moviesUpcomingUseCase = async (fetcher: HttpAdapter): Promise<Movie
     try{
         const upcoming = await fetcher.get<MoviesDbResponse>('/upcoming');
 
-        return upcoming.results.map( result => MovieMapper.fromMovieDBResultToEntity(result) );
+        return upcoming.results.map( result => MovieMapper.fromDBMovieToEntity(result) );
 
     } catch (error) {
         console.log(error);

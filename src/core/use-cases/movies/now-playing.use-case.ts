@@ -16,7 +16,7 @@ export const moviesNowPlayingUseCase = async (fetcher: HttpAdapter): Promise<Mov
         const nowPlaying = await fetcher.get<NowPlayingResponse>('/now_playing');
 
         // nowPlaying.results.map( MovieMapper.fromMovieDBResultToEntity );
-        return nowPlaying.results.map( result => MovieMapper.fromMovieDBResultToEntity(result) );
+        return nowPlaying.results.map( result => MovieMapper.fromDBMovieToEntity(result) );
 
     } catch (error) {
         console.log(error);
@@ -25,7 +25,7 @@ export const moviesNowPlayingUseCase = async (fetcher: HttpAdapter): Promise<Mov
 
 }
 
-export const moviesNowPlayingPageUseCase = async (fetcher: HttpAdapter, options?: Options): Promise<NowPlaying> => {
+export const moviesNowPlayingPaginatedUseCase = async (fetcher: HttpAdapter, options?: Options): Promise<NowPlaying> => {
     try{
         const nowPlaying = await fetcher.get<NowPlayingResponse>('/now_playing', {
             params: {
@@ -33,11 +33,7 @@ export const moviesNowPlayingPageUseCase = async (fetcher: HttpAdapter, options?
             }
         });
 
-        //console.log(NowPlayingMapper.fromMovieDBResultToEntity(nowPlaying));
-
-        console.log(NowPlayingMapper.fromMovieDBResultToEntity(nowPlaying));
-
-        return NowPlayingMapper.fromMovieDBResultToEntity(nowPlaying);
+        return NowPlayingMapper.fromDBNowPlayingToEntity(nowPlaying);
 
     } catch (error) {
         console.log(error);

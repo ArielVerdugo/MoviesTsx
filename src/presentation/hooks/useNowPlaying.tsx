@@ -2,22 +2,26 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { movieDBFetcher } from "../../config/adapters/moviesDB.adapter";
 
 import * as UseCases from "../../core/use-cases/index";
+import { Movie } from "../../core/entities/movie.entity";
 
 export const useNowPlaying = () => {
 
-    let movies;
+    let movies: Movie[] | undefined;
    
-    const fetchProjects = async ({ pageParam = 1 }) => {
-        return UseCases.moviesNowPlayingPageUseCase(movieDBFetcher, {page: pageParam})
+    const fetchNowPlaying = async ({ pageParam = 1 }) => {
+        return UseCases.moviesNowPlayingPaginatedUseCase(movieDBFetcher, {page: pageParam})
     }
   
     const {
-        isLoading, data, hasNextPage, fetchNextPage, isFetchingNextPage
+        isLoading, data, hasNextPage, fetchNextPage
       } = useInfiniteQuery({
         queryKey: ['nowPlaying'],
-        queryFn: fetchProjects,
+        queryFn: fetchNowPlaying,
         initialPageParam: 1,
         getNextPageParam(lastPage) {
+            if(lastPage.page === lastPage.totalPages){
+                return;
+            }
             return lastPage.page + 1;
         },
     })

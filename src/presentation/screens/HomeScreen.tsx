@@ -1,4 +1,4 @@
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { useMovies } from "../hooks/useMovies"
 import { PosterCarousel } from '../components/movies/PosterCarousel';
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -9,10 +9,7 @@ export const HomeScreen = () => {
 
     const {top} = useSafeAreaInsets();
     const {topRated, upcoming, popular} = useMovies();
-    const{
-        movies,
-        loadMore
-    } = useNowPlaying();
+    const{ movies, loadMore } = useNowPlaying();
 
     return(
         <ScrollView>
