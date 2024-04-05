@@ -19,7 +19,7 @@ export const moviesNowPlayingUseCase = async (fetcher: HttpAdapter): Promise<Mov
         return nowPlaying.results.map( result => MovieMapper.fromDBMovieToEntity(result) );
 
     } catch (error) {
-        console.log(error);
+        //console.log(error);
         throw new Error('Error fetching');
     }
 
@@ -36,7 +36,7 @@ export const moviesNowPlayingPaginatedUseCase = async (fetcher: HttpAdapter, opt
         return NowPlayingMapper.fromDBNowPlayingToEntity(nowPlaying);
 
     } catch (error) {
-        console.log(error);
+        //console.log(error);
         throw new Error('Error fetching');
     }
 

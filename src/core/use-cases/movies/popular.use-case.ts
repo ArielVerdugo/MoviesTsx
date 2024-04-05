@@ -10,7 +10,7 @@ export const moviesPopularUseCase = async (fetcher: HttpAdapter): Promise<Movie[
         return popular.results.map( result => MovieMapper.fromDBMovieToEntity(result) );
 
     } catch (error) {
-        console.log(error);
+        //console.log(error);
         throw new Error('Error fetching');
     }
 }
