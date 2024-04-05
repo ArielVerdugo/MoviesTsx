@@ -19,7 +19,7 @@ export const useNowPlaying = () => {
     }
   
     const {
-        isLoading, isError, isSuccess, data, error, hasNextPage, fetchNextPage, refetch
+        isLoading, isError, data, error, hasNextPage, fetchNextPage, refetch
       } = useInfiniteQuery({
         queryKey: ['nowPlaying'],
         queryFn: fetchNowPlaying,
@@ -74,8 +74,7 @@ export const useNowPlaying = () => {
     };
 
     return {
-        isError,
-        isSuccess,
+        isLoading,
         movies,
         loadMore,
         refetch
