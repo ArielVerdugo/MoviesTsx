@@ -3,18 +3,16 @@ import { movieDBFetcher } from "../../config/adapters/moviesDB.adapter";
 
 import * as UseCases from "../../core/use-cases/index";
 import { Movie } from "../../core/entities/movie.entity";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import NetInfo from '@react-native-community/netinfo';
 import { Alert } from "react-native";
-import RNRestart from "react-native-restart";
 
 export const useNowPlaying = () => {
 
     let movies: Movie[] | undefined;
    
     const fetchNowPlaying = async ({ pageParam = 1 }) => {
-        console.log('llamo al serivico fetch');
         return UseCases.moviesNowPlayingPaginatedUseCase(movieDBFetcher, {page: pageParam})
     }
   
@@ -33,22 +31,25 @@ export const useNowPlaying = () => {
         },
     })
 
-    /*useEffect(() => {
-        unsubscribe();
-    })
 
-    const unsubscribe = NetInfo.addEventListener( (state) => {
-        if(state.isConnected === false) {
-            Alert.alert("No internet", "Reconnect", [
-                {
-                    text: "Reload app", 
-                    onPress: () => refetch()
-                }
-        ])
-        } else if (state.isConnected === true){
-            console.log("connected");
-        }
-    });*/
+    useEffect(() => {
+        const unsubscribe = NetInfo.addEventListener((state) => {
+            if(state.isConnected === false) {
+                Alert.alert("No internet", "Reconnect", [
+                    {
+                        text: "Reload app", 
+                        onPress: () => refetch()
+                    }
+            ])
+            } else if (state.isConnected === true){
+                console.log("connected");
+            }
+        });
+        return () => {
+          unsubscribe();
+        };
+    });
+
 
     // refetch when windos focus
     useFocusEffect(
@@ -59,7 +60,20 @@ export const useNowPlaying = () => {
     );
       
     if (isError){
-        //console.log(error.message)
+        switch(error.message) { 
+            case '404': { 
+                Alert.alert("Error 404", "Reconnect", [
+                    {
+                        text: "Reload app", 
+                        onPress: () => refetch()
+                    }
+            ])
+               break; 
+            } 
+            default: { 
+               break; 
+            } 
+         } 
     }
     
 

@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from "axios";
+import axios, { AxiosError, AxiosInstance } from "axios";
 import { HttpAdapter } from "./http.adapter";
 
 interface Options {
@@ -24,8 +24,9 @@ export class AxiosAdapter implements HttpAdapter{
 
             return data;
             
-        } catch(error){
-            throw new Error("Method not implemented.");
+        } catch(error) {
+            const axiosError = error as AxiosError
+            throw new Error(axiosError.response?.status.toString());
         }
     }
 
